@@ -26,11 +26,9 @@ class LoginActivity : AppCompatActivity() {
         btnLogin.setOnClickListener {
             val databaseHelper = DatabaseHelper(this)
 
-            val data:String = databaseHelper.checkData("stevi.ema@amikom.ac.id")
-
-            val data:String = databaseHelper.checkData("stevi.ema@amikom.ac.id")
-            Toast.makeText(this@LoginActivity,"Result : " + data,Toast.LENGTH_SHORT).show()
-            if (data==null){
+            //val data:String = databaseHelper.checkData("stevi.ema@amikom.ac.id")
+            //Toast.makeText(this@LoginActivity,"Result : " + data,Toast.LENGTH_SHORT).show()
+            //if (data==null){
                 databaseHelper.addAccount("stevi.ema@amikom.ac.id","Stevi Ema W","Cashier","12345")
 
             val email = txtUsername.text.toString().trim()
@@ -47,4 +45,3 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 }
-    }
