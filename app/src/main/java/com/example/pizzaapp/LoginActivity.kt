@@ -1,14 +1,17 @@
 package com.example.pizzaapp
 
+
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 
 class LoginActivity : AppCompatActivity() {
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -21,7 +24,11 @@ class LoginActivity : AppCompatActivity() {
         val txtPassword: EditText = findViewById(R.id.editTextPassword)
         //instance button login
         val btnLogin: Button = findViewById(R.id.buttonLogin)
+        val btnRegister: TextView = findViewById(R.id.editTextRegister)
 
+        btnRegister.setOnClickListener{
+
+        }
         //event button login
         btnLogin.setOnClickListener {
             val databaseHelper = DatabaseHelper(this)
