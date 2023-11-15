@@ -5,22 +5,27 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.widget.Toast
 
-class DatabaseHelper(context: Context): SQLiteOpenHelper(
+class DatabaseHelper(var context: Context): SQLiteOpenHelper(
     context, DATABASE_NAME, null, DATABASE_VERSION
-){
+) {
     companion object {
         private val DATABASE_NAME = "pizza"
         private val DATABASE_VERSION = 2
+
         //table name
         private val TABLE_ACCOUNT = "account"
+
         //Column account table
         private val COLUMN_EMAIL = "email"
         private val COLUMN_NAME = "name"
         private val COLUMN_LEVEL = "level"
         private val COLUMN_PASSWORD = "password"
     }
-    private val CREATE_ACCOUNT_TABLE = ("CREATE TABLE " + TABLE_ACCOUNT + "("+ COLUMN_EMAIL+" TEXT PRIMARY KEY, "+ COLUMN_NAME + " TEXT, " + COLUMN_LEVEL + " TEXT, "+ COLUMN_PASSWORD +" TEXT)")
+
+    private val CREATE_ACCOUNT_TABLE =
+        ("CREATE TABLE " + TABLE_ACCOUNT + "(" + COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_LEVEL + " TEXT, " + COLUMN_PASSWORD + " TEXT)")
     private val DROP_ACCOUNT_TABLE = "DROP TABLE IF EXISTS $TABLE_ACCOUNT"
 
     override fun onCreate(p0: SQLiteDatabase?) {
@@ -32,14 +37,15 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(
         onCreate(p0)
     }
 
-    fun checkLogin(email:String, password:String):Boolean{
+    fun checkLogin(email: String, password: String): Boolean {
         val colums = arrayOf(COLUMN_NAME)
         val db = this.readableDatabase
         //selection criteria
         val selection = "$COLUMN_EMAIL = ? AND $COLUMN_PASSWORD = ?"
-        val selectionArgs = arrayOf(email,password)
+        val selectionArgs = arrayOf(email, password)
 
-        val cursor = db.query(TABLE_ACCOUNT,
+        val cursor = db.query(
+            TABLE_ACCOUNT,
             colums,
             selection,
             selectionArgs,
@@ -52,12 +58,13 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(
         cursor.close()
         db.close()
 
-        if(cursorCount>0)
+        if (cursorCount > 0)
             return true
         else
             return false
     }
-    fun addAccount(email:String, name:String, level:String, password:String){
+
+    fun addAccount(email: String, name: String, level: String, password: String) {
         val db = this.readableDatabase
 
         val values = ContentValues()
@@ -66,23 +73,32 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(
         values.put(COLUMN_LEVEL, level)
         values.put(COLUMN_PASSWORD, password)
 
-        db.insert(TABLE_ACCOUNT, null, values)
-        db.close()
-    }
-    @SuppressLint("Range")
-    fun checkData(email:String):String{
-        val colums = arrayOf(COLUMN_NAME)
-        val db = this.readableDatabase
-        val selection = "$COLUMN_EMAIL = ?"
-        val selectionArgs= arrayOf(email)
-        var name:String = ""
-
-        val cursor = db.query(TABLE_ACCOUNT, colums, selection, selectionArgs, null, null, null)
-        if (cursor.moveToFirst()){
-            name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME))
+        val result = db.insert(TABLE_ACCOUNT, null, values)
+        if (result == (0).toLong()) {
+            Toast.makeText(context, "Register Failed", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(
+                context,
+                "Register Succes, " + "please login using your new account",
+                Toast.LENGTH_SHORT
+            ).show()
+            db.close()
         }
-        cursor.close()
-        db.close()
-        return name
     }
-}
+        @SuppressLint("Range")
+        fun checkData(email: String): String {
+            val colums = arrayOf(COLUMN_NAME)
+            val db = this.readableDatabase
+            val selection = "$COLUMN_EMAIL = ?"
+            val selectionArgs = arrayOf(email)
+            var name: String = ""
+
+            val cursor = db.query(TABLE_ACCOUNT, colums, selection, selectionArgs, null, null, null)
+            if (cursor.moveToFirst()) {
+                name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME))
+            }
+            cursor.close()
+            db.close()
+            return name
+        }
+    }
