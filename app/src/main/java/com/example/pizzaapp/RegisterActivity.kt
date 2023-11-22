@@ -12,9 +12,6 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        val dbHelper = DatabaseHelper(this)
-        dbHelper.addAccount("stevi.ema@amikom.ac.id","Stevi Ema W.","Kasir","12345")
-
         val txtEmail: EditText = findViewById(R.id.registerEmail)
         val txtName: EditText = findViewById(R.id.registerPersonName)
         val txtLevel: EditText = findViewById(R.id.registerLevel)
@@ -32,6 +29,9 @@ class RegisterActivity : AppCompatActivity() {
             val password:String = txtPassword.text.toString().trim()
 
             val data:String = databaseHelper.checkData(email)
+
+            val dbHelper = DatabaseHelper(this)
+            dbHelper.addAccount(email,nama,level,password)
 
             if (data == null){
                 databaseHelper.addAccount(email,nama, level, password)
