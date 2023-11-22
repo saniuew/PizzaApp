@@ -33,7 +33,7 @@ class RegisterActivity : AppCompatActivity() {
             val dbHelper = DatabaseHelper(this)
             dbHelper.addAccount(email,nama,level,password)
 
-            if (data == null){
+            if (data == ""){
                 databaseHelper.addAccount(email,nama, level, password)
 
                 val intentLogin = Intent(this@RegisterActivity,LoginActivity::class.java)
