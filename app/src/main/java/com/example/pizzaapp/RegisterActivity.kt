@@ -23,14 +23,17 @@ class RegisterActivity : AppCompatActivity() {
         val btnRegister: Button = findViewById(R.id.buttonRegisterAccount)
 
         btnRegister.setOnClickListener{
+
             val databaseHelper = DatabaseHelper(this)
+
             val email:String = txtEmail.text.toString().trim()
             val nama:String = txtName.text.toString().trim()
             val level:String = txtLevel.text.toString().trim()
             val password:String = txtPassword.text.toString().trim()
 
             val data:String = databaseHelper.checkData(email)
-            if (data==null){
+
+            if (data == null){
                 databaseHelper.addAccount(email,nama, level, password)
 
                 val intentLogin = Intent(this@RegisterActivity,LoginActivity::class.java)

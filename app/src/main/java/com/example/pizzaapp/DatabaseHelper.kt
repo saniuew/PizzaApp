@@ -74,6 +74,7 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(
         values.put(COLUMN_PASSWORD, password)
 
         val result = db.insert(TABLE_ACCOUNT, null, values)
+        //show message
         if (result == (0).toLong()) {
             Toast.makeText(context, "Register Failed", Toast.LENGTH_SHORT).show()
         } else {
@@ -82,23 +83,24 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(
                 "Register Succes, " + "please login using your new account",
                 Toast.LENGTH_SHORT
             ).show()
-            db.close()
         }
+        db.close()
     }
-        @SuppressLint("Range")
-        fun checkData(email: String): String {
-            val colums = arrayOf(COLUMN_NAME)
-            val db = this.readableDatabase
-            val selection = "$COLUMN_EMAIL = ?"
-            val selectionArgs = arrayOf(email)
-            var name: String = ""
 
-            val cursor = db.query(TABLE_ACCOUNT, colums, selection, selectionArgs, null, null, null)
-            if (cursor.moveToFirst()) {
-                name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME))
-            }
-            cursor.close()
-            db.close()
-            return name
+    @SuppressLint("Range")
+    fun checkData(email: String): String {
+        val colums = arrayOf(COLUMN_NAME)
+        val db = this.readableDatabase
+        val selection = "$COLUMN_EMAIL = ?"
+        val selectionArgs = arrayOf(email)
+        var name: String = ""
+
+        val cursor = db.query(TABLE_ACCOUNT, colums, selection, selectionArgs, null, null, null)
+        if (cursor.moveToFirst()) {
+            name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME))
         }
+        cursor.close()
+        db.close()
+        return name
     }
+}

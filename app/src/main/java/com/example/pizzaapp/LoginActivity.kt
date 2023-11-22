@@ -24,11 +24,8 @@ class LoginActivity : AppCompatActivity() {
         val txtPassword: EditText = findViewById(R.id.editTextPassword)
         //instance button login
         val btnLogin: Button = findViewById(R.id.buttonLogin)
-        val btnRegister: TextView = findViewById(R.id.editTextRegister)
+        val btnRegister: TextView = findViewById(R.id.register)
 
-        btnRegister.setOnClickListener{
-
-        }
         //event button login
         btnLogin.setOnClickListener {
             val databaseHelper = DatabaseHelper(this)
@@ -49,6 +46,10 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Login Failed, Try Again !!!", Toast.LENGTH_SHORT).show()
             }
+        }
+        btnRegister.setOnClickListener {
+            val intentReg = Intent(this@LoginActivity, RegisterActivity::class.java)
+            startActivity(intentReg)
         }
     }
 }
