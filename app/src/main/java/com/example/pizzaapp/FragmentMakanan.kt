@@ -48,7 +48,7 @@ class FragmentMakanan : Fragment() {
 
         buttonAdd.setOnClickListener{
             requireActivity().run{
-                startActivity(Intent(this, addMenuActivity::class.java))
+                startActivity(Intent(this, AddMenuActivity::class.java))
                 finish()
             }
         }
