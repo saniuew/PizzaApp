@@ -132,5 +132,13 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(
         imageInByte = byteOutputStream.toByteArray()
         values.put(COLUMN_IMAGE, imageInByte)
 
+        val result = db.insert(TABLE_MENU,null,values)
+
+        if (result==(0).toLong()){
+            Toast.makeText(context, "Add menu Failed", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Add menu Succes", Toast.LENGTH_SHORT).show()
+        }
+        db.close()
     }
 }
