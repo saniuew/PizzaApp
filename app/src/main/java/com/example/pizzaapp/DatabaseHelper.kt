@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Bitmap
+import android.util.Log
 import android.widget.Toast
 import com.example.pizzaapp.model.MenuModel
 import java.io.ByteArrayOutputStream
@@ -15,7 +16,7 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(
 ) {
     companion object {
         private val DATABASE_NAME = "pizza"
-        private val DATABASE_VERSION = 2
+        private val DATABASE_VERSION = 3
 
         //table name
         private val TABLE_ACCOUNT = "account"
@@ -35,7 +36,7 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(
     }
 
     private val CREATE_MENU_TABLE =
-        ("CREATE TABLE " + "(" + COLUMN_ID_MENU + " INT PRIMARY KEY, " + COLUMN_NAMA_MENU + " TEXT, " + COLUMN_PRICE_MENU + " INT, "+ COLUMN_IMAGE + " BLOOB)")
+        ("CREATE TABLE " + TABLE_MENU + "(" + COLUMN_ID_MENU + " INT PRIMARY KEY, " + COLUMN_NAMA_MENU + " TEXT, " + COLUMN_PRICE_MENU + " INT, "+ COLUMN_IMAGE + " BLOB)")
     private val DROP_MENU_TABLE = "DROP TABLE IF EXISTS $TABLE_MENU"
     private val CREATE_ACCOUNT_TABLE =
         ("CREATE TABLE " + TABLE_ACCOUNT + "(" + COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_LEVEL + " TEXT, " + COLUMN_PASSWORD + " TEXT)")
@@ -105,7 +106,7 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(
     @SuppressLint("Range")
     fun checkData(email: String): String {
         val colums = arrayOf(COLUMN_NAME)
-        val db = this.readableDatabase
+        val db = this.writableDatabase
         val selection = "$COLUMN_EMAIL = ?"
         val selectionArgs = arrayOf(email)
         var name: String = ""
@@ -118,8 +119,7 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(
         db.close()
         return name
     }
-
-    fun addMenu(menu:MenuModel){
+    fun addMenu(menu: MenuModel) {
         val db = this.writableDatabase
         val values = ContentValues()
         values.put(COLUMN_ID_MENU, menu.id)
@@ -127,18 +127,21 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(
         values.put(COLUMN_PRICE_MENU, menu.price)
 
         val byteOutputStream = ByteArrayOutputStream()
-        val imageInByte:ByteArray
-        menu.image.compress(Bitmap.CompressFormat.JPEG,100,byteOutputStream)
+        val imageInByte: ByteArray
+        menu.image.compress(Bitmap.CompressFormat.JPEG, 100, byteOutputStream)
         imageInByte = byteOutputStream.toByteArray()
         values.put(COLUMN_IMAGE, imageInByte)
 
-        val result = db.insert(TABLE_MENU,null,values)
+        val result = db.insert(TABLE_MENU, null, values)
 
-        if (result==(0).toLong()){
+        if (result == (0).toLong()) {
+            Log.e("DatabaseHelper", "Add menu Failed")
             Toast.makeText(context, "Add menu Failed", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Add menu Succes", Toast.LENGTH_SHORT).show()
+            Log.d("DatabaseHelper", "Add menu Success")
+            Toast.makeText(context, "Add menu Success", Toast.LENGTH_SHORT).show()
         }
         db.close()
     }
+
 }
