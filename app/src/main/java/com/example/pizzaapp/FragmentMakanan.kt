@@ -41,8 +41,10 @@ class FragmentMakanan : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_makanan, container, false)
         val rvmakanan: RecyclerView = view.findViewById(R.id.recyclerMakanan)
+        val databaseHelper = DatabaseHelper(this.requireContext())
+        val listData = databaseHelper.showMenu()
         rvmakanan.layoutManager = LinearLayoutManager(activity)
-        rvmakanan.adapter = MenuAdapter()
+        rvmakanan.adapter = MakananAdapter(listData)
 
         val buttonAdd : Button = view.findViewById(R.id.buttonAddMenu)
 
