@@ -20,9 +20,9 @@ class MakananAdapter(private val list: ArrayList<MenuModel>):
 
         init {
             textId = v.findViewById(R.id.textIdMakanan)
-            textNama = v.findViewById(R.id.textNamaMenu)
+            textNama = v.findViewById(R.id.textNamaMakanan)
             textHarga = v.findViewById(R.id.textHargaMakanan)
-            imageMenu = v.findViewById(R.id.imageMenu)
+            imageMenu = v.findViewById(R.id.imageMakanan)
         }
 
         fun bind(data: MenuModel) {
