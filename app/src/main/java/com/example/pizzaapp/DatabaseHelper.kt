@@ -20,7 +20,7 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(
 ) {
     companion object {
         private val DATABASE_NAME = "pizza"
-        private val DATABASE_VERSION = 3
+        private val DATABASE_VERSION = 5
 
         //table name
         private val TABLE_ACCOUNT = "account"

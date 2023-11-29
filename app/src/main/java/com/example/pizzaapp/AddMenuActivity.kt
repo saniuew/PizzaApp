@@ -43,6 +43,9 @@ class AddMenuActivity : AppCompatActivity() {
 
             val menuModel = MenuModel(id,name,price,bitmap)
             databaseHelper.addMenu(menuModel)
+
+            val intentMakanan = Intent(this, FragmentMakanan::class.java)
+            startActivity(intentMakanan)
         }
     }
     private fun pickImageGalery(){
