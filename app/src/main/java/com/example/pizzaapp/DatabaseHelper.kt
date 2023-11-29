@@ -154,7 +154,7 @@ class DatabaseHelper(var context: Context): SQLiteOpenHelper(
         val db = this.readableDatabase
         var cursor:Cursor?=null
         try{
-            cursor = db.rawQuery("SELECT * FROM" + TABLE_MENU,null)
+            cursor = db.rawQuery("SELECT * FROM " + TABLE_MENU,null)
         }catch (se:SQLiteException){
             db.execSQL(CREATE_MENU_TABLE)
             return ArrayList()

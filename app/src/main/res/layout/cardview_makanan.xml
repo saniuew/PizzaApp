@@ -50,7 +50,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="Nama Makanan"
+            android:text="Harga Makanan"
             android:textColor="@color/black"
             android:textSize="14dp"
             app:layout_constraintStart_toEndOf="@+id/imageMakanan"
