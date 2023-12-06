@@ -1,9 +1,12 @@
 package com.example.pizzaapp
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -17,12 +20,20 @@ class MakananAdapter(private val list: ArrayList<MenuModel>):
         val textNama: TextView
         val textHarga: TextView
         val imageMenu: ImageView
+        val buttonEdit : Button
+        val context = v.context
 
         init {
             textId = v.findViewById(R.id.textIdMakanan)
             textNama = v.findViewById(R.id.textNamaMakanan)
             textHarga = v.findViewById(R.id.textHargaMakanan)
             imageMenu = v.findViewById(R.id.imageMakanan)
+            buttonEdit = v.findViewById(R.id.buttonUpdateMenu)
+
+            buttonEdit.setOnClickListener {
+                val edit = Intent(context,EditMenuActivity::class.java)
+                context.startActivity(edit)
+            }
         }
 
         fun bind(data: MenuModel) {

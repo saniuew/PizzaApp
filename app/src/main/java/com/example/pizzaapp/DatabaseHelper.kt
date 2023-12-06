@@ -218,4 +218,29 @@ class DatabaseHelper(var context: Context) : SQLiteOpenHelper(
 
         return Bitmap.createScaledBitmap(image, width, height, true)
     }
+    fun EditMenu(menu: MenuModel) {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(COLUMN_ID_MENU, menu.id)
+        values.put(COLUMN_NAMA_MENU, menu.name)
+        values.put(COLUMN_PRICE_MENU, menu.price)
+
+        // Mengompresi gambar sebelum menyimpannya
+        val byteOutputStream = ByteArrayOutputStream()
+        val compressedImage: Bitmap = compressImage(menu.image)
+        compressedImage.compress(Bitmap.CompressFormat.JPEG, 100, byteOutputStream)
+        val imageInByte: ByteArray = byteOutputStream.toByteArray()
+        values.put(COLUMN_IMAGE, imageInByte)
+
+        val result = db.update(TABLE_MENU, values, COLUMN_ID_MENU + "= ?", arrayOf(menu.id.toString())).toLong()
+
+        if (result == (0).toLong()) {
+            Log.e("DatabaseHelper", "Add menu Failed")
+            Toast.makeText(context, "Add menu Failed", Toast.LENGTH_SHORT).show()
+        } else {
+            Log.d("DatabaseHelper", "Add menu Success")
+            Toast.makeText(context, "Add menu Success", Toast.LENGTH_SHORT).show()
+        }
+        db.close()
+    }
 }
