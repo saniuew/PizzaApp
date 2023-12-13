@@ -11,6 +11,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp">
 
+        <TextView
+            android:id="@+id/textIdMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/imageMenu"
             android:layout_width="100dp"
